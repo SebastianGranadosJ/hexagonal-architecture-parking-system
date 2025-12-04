@@ -128,7 +128,8 @@ The Parking Module also supports generating a **Daily Revenue Report**, which in
 ## 3. 📦 Inventory Module
 
 The **Inventory Module** manages all product-related operations within the cinema, including food, merchandise, and other consumables.  
-It supports **stock validation**, **item creation**, and **inventory reservation**, ensuring that product availability is accurately tracked and updated.
+It supports **stock validation**, **item creation**, and **inventory reservation**, ensuring that product availability is accurately tracked and updated.  
+You can find the specific design diagram for this module in the **`/design`** folder.
 
 ### 🔌 Available Endpoints (base: `/inventory`)
 - **GET /items/stock/:sku** → Check stock availability for a given SKU  
@@ -142,9 +143,20 @@ It supports **stock validation**, **item creation**, and **inventory reservation
 
 The **Customer Module** handles the identification and management of cinema customers.  
 It provides the ability to **retrieve customer information**, enabling features such as **free parking benefits** and personalized experiences.  
-This module uses **local JSON persistence** to store and retrieve customer data efficiently.
+This module uses **local JSON persistence** to store and retrieve customer data efficiently.  
+The detailed design diagram for this module is available in the **`/design`** folder.
 
 ### 🔌 Available Endpoints (base: `/customers-data`)
 - **GET /customers/:id** → Retrieve customer information by ID
+
+---
+
+## 🎉 Thank You for Exploring This Repository
+
+Thank you for taking the time to review this project!  
+I hope this architecture, the modular hexagon-based design, and the overall system structure provide useful insights into clean backend development with TypeScript.
+
+If you have any suggestions, feedback, or questions, feel free to reach out.  
+Your interest and time are greatly appreciated — **may the code be with you!** ✨
 
 
