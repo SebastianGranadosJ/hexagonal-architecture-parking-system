@@ -10,11 +10,11 @@ The system is divided into **four functional hexagons**, plus a dedicated **API 
 
 ## 🧱 Hexagons Overview
 
-### **1. Parking Hexagon**
-Handles everything related to the cinema's parking system, including vehicle entry, exit, billing calculation, client benefits, and daily revenue reporting.
-
-### **2. Movies Hexagon**
+### **1. Movies Hexagon**
 Manages movie information. It handles local movie storage and also integrates external data sources such as **SWAPI** to fetch film details, characters, and related metadata.
+
+### **2. Parking Hexagon**
+Handles everything related to the cinema's parking system, including vehicle entry, exit, billing calculation, client benefits, and daily revenue reporting.
 
 ### **3. Inventory Hexagon**
 Responsible for managing inventory items such as food, merchandise, or products sold at the cinema.  
