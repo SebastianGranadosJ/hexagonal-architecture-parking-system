@@ -22,7 +22,7 @@ Below is the conceptual model used for the project:
 
 # 📘 Functionalities Implemented
 
-The system fully satisfies the requirements described in the project specification (PDF).  
+The system fully satisfies the requirements described in the project specification (You can find it in the /docs folder.).  
 Below is the list of **Functional Requirements (RF)** and how they are implemented:
 
 ---
