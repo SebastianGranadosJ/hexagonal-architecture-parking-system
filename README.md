@@ -74,7 +74,6 @@ In addition to this architecture, the system incorporates several **software des
 The **Movies Hexagon** is responsible for managing all movie-related information for the cinema system.  
 It combines **local movie data** with external information fetched from **SWAPI (Star Wars API)**, allowing enriched movie records that include titles, characters, and additional metadata.
 
----
 
 ### 🧩 Movies Diagram
 
@@ -85,7 +84,7 @@ Below is the class diagram representing the internal structure of the Movies mod
 Here we can observe the **Movies domain**, with its attributes such as **title**, **synopsis**, **release date**, **genre**, **classification**, **director**, **main cast**, and others.  
 The diagram also shows the definition of the corresponding **Domain Port**, the **Use Case** that implements this port, and the **Controller**, which uses the use case through the port to expose functionality to the API.
 
----
+
 
 ### 🔌 Available Endpoints (base: `/movies-data`)
 
@@ -94,6 +93,7 @@ The diagram also shows the definition of the corresponding **Domain Port**, the 
 - **GET /list/:idList** → Retrieve a movie list by list ID  
 - **GET /list/** → Search for movies using filters (`title`, `type`, `year`, etc.)
 
+---
 
 ## 2. 🅿️ Parking Module
 
@@ -117,13 +117,15 @@ After processing the payment (or determining it is free), the system records the
 
 The Parking Module also supports generating a **Daily Revenue Report**, which includes the **total revenue collected** on a given date and a **detailed list of all vehicles** that finalized their stay that day. For each vehicle, the report shows its license plate, type, whether it belonged to a store client, and the final amount paid.
 
----
-
 ### 🔌 Available Endpoints (base: `/api/v1.0/estacionamiento`)
 
 - **POST /ingresos** → Register vehicle entry  
 - **POST /salidas** → Register vehicle exit and calculate payment  
 - **GET /reportes/balance-diario?fecha=YYYY-MM-DD** → Retrieve the daily revenue report
+
+
+---
+
 
 ## 3. 📦 Inventory Module
 
