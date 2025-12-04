@@ -1,10 +1,25 @@
 # 🎬 Cinema Management API – Hexagonal Architecture (Ports & Adapters)
 
 This project is a modular **Cinema Management API** developed in **TypeScript**, using **Express** as the web framework.  
+It implements a fully structured **RESTful API**, designed to provide clean and consistent endpoints for all cinema-related operations.
+
 The system integrates both **SQL database storage** and **local JSON persistence**, and additionally consumes external data from **SWAPI (Star Wars API)** for movie-related information.
 
 The application is structured using a strict **Hexagonal Architecture** (Ports & Adapters), ensuring high separation of concerns, independence from frameworks, strong modularity, and maintainability.  
 The system is divided into **four functional hexagons**, plus a dedicated **API hexagon** responsible for all external communication, and a **Shared Module** that provides utilities and components reused across all hexagons.
+
+## 🛠️ Tech Stack
+
+This project is built using the following technologies:
+
+- **TypeScript** – Strong typing and robust development experience  
+- **Node.js + Express** – RESTful API infrastructure  
+- **Hexagonal Architecture (Ports & Adapters)** – High modularity and clean boundaries  
+- **SQL Database** – Persistent storage for operational data  
+- **Local JSON Storage** – Lightweight persistence for specific modules  
+- **SWAPI Integration** – External data provider for movie-related information  
+- **RESTful API Design** – Consistent and structured endpoint definitions
+
 
 ---
 
@@ -54,7 +69,7 @@ In addition to this architecture, the system incorporates several **software des
 - **Singleton Pattern** for database connectors and shared resources  
 
 ---
-## 🎬 Movies Module
+## 🎬 1. Movies Module
 
 The **Movies Hexagon** is responsible for managing all movie-related information for the cinema system.  
 It combines **local movie data** with external information fetched from **SWAPI (Star Wars API)**, allowing enriched movie records that include titles, characters, and additional metadata.
@@ -80,89 +95,56 @@ The diagram also shows the definition of the corresponding **Domain Port**, the 
 - **GET /list/** → Search for movies using filters (`title`, `type`, `year`, etc.)
 
 
+## 2. 🅿️ Parking Module
 
-# 📘 Functionalities Implemented
+The **Parking Module** manages the complete parking workflow of the cinema, handling vehicle entry, exit, billing, client benefits, and daily revenue reporting.  
+It is one of the most detailed modules in the system due to its operational and transactional nature.
 
-The system fully satisfies the requirements described in the project specification (You can find it in the /docs folder.).  
-Below is the list of **Functional Requirements (RF)** and how they are implemented:
-
----
-
-## ✅ **RF-01: Vehicle Entrance Registration**
-- Exposes an endpoint for the entry machine.  
-- Receives the vehicle license plate and type (car/motorcycle).  
-- Stores:
-  - Plate  
-  - Vehicle type  
-  - Exact timestamp of entry  
-- Capacity limits:
-  - **38 car spots**  
-  - **26 motorcycle spots**
-
-### Example Endpoint  
-`POST /api/v1.0/estacionamiento/ingresos`
+You can view the full specification of the parking requirements in:  
+**`docs/parking-requirements.pdf`**
 
 ---
 
-## ✅ **RF-02: Exit and Payment Calculation**
-The system processes the vehicle exit through an endpoint that:
+### 🚗 Module Description
 
-1. Receives the vehicle plate  
-2. Validates if the vehicle belongs to a **store client**:
-   - If **store client → payment = $0**
-3. If not a store client:
-   - Calculates total time in minutes
-   - Applies the corresponding per-minute rate
-   - Adds **19% tax (IVA)**
-4. Marks the parking session as **finalized**
-5. Registers exit timestamp
+The Parking Module provides an endpoint that allows the entrance machine to register a vehicle’s arrival.  
+When a vehicle enters, the system stores its **license plate**, **vehicle type** (car or motorcycle), and the **exact timestamp of entry**.  
+Additionally, the module enforces parking capacity limits, supporting **38 car spots** and **26 motorcycle spots**.
 
-### Example Endpoint  
-`POST /api/v1.0/estacionamiento/salidas`
+The module also manages the exit and payment calculation process. When a vehicle attempts to leave, the system checks whether the driver is a **registered store customer**, in which case the parking fee is automatically **waived (payment = $0)**.  
+For non-customers, the system calculates the parking fee based on the **total minutes parked**, applies the corresponding **per-minute rate** (car: 88 COP/min, motorcycle: 66 COP/min), and adds the **19% IVA tax**.  
+After processing the payment (or determining it is free), the system records the **exit timestamp** and marks the parking session as completed.
+
+The Parking Module also supports generating a **Daily Revenue Report**, which includes the **total revenue collected** on a given date and a **detailed list of all vehicles** that finalized their stay that day. For each vehicle, the report shows its license plate, type, whether it belonged to a store client, and the final amount paid.
 
 ---
 
-## ✅ **RF-03: Service Rates**
-Rates are configured as:
+### 🔌 Available Endpoints (base: `/api/v1.0/estacionamiento`)
 
-| Vehicle Type | Cost per Minute |
-|--------------|-----------------|
-| Car          | **$88**         |
-| Motorcycle   | **$66**         |
+- **POST /ingresos** → Register vehicle entry  
+- **POST /salidas** → Register vehicle exit and calculate payment  
+- **GET /reportes/balance-diario?fecha=YYYY-MM-DD** → Retrieve the daily revenue report
 
-These values are applied dynamically by the domain logic.
+## 3. 📦 Inventory Module
 
----
+The **Inventory Module** manages all product-related operations within the cinema, including food, merchandise, and other consumables.  
+It supports **stock validation**, **item creation**, and **inventory reservation**, ensuring that product availability is accurately tracked and updated.
 
-## ✅ **RF-04: Daily Revenue Report**
-The system provides an endpoint to compute a **daily financial report**, including:
+### 🔌 Available Endpoints (base: `/inventory`)
+- **GET /items/stock/:sku** → Check stock availability for a given SKU  
+- **POST /items/reservations/:sku** → Create a stock reservation  
+- **POST /items** → Create a new inventory item  
 
-- Total revenue collected during the day  
-- A detailed list of all vehicles that completed their stay, including:  
-  - License plate  
-  - Vehicle type  
-  - Whether the driver was a store client  
-  - Final payment amount  
-
-### Example Endpoint  
-`GET /api/v1.0/estacionamiento/reportes/balance-diario?fecha=YYYY-MM-DD`
 
 ---
 
-# 🏗️ Non-Functional Requirements
+## 4. 🧍 Customer Module
 
-## ⚙️ **RNF-01: Clean Architecture (Ports & Adapters)**
-No external libraries for business logic.  
-Pure domain models and use cases.  
-Frameworks only in Infrastructure.
+The **Customer Module** handles the identification and management of cinema customers.  
+It provides the ability to **retrieve customer information**, enabling features such as **free parking benefits** and personalized experiences.  
+This module uses **local JSON persistence** to store and retrieve customer data efficiently.
 
-## 🖥️ **RNF-02: External Devices Simulation**
-The entry machine and auto-payment terminal are simulated via:
-- Postman  
-- cURL  
-- Any HTTP client
-
-## 🗄️ **RNF-03: Data Persistence**
-Supports relational databases MySQL.
+### 🔌 Available Endpoints (base: `/customers-data`)
+- **GET /customers/:id** → Retrieve customer information by ID
 
 
