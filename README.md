@@ -15,7 +15,7 @@ This project is built using the following technologies:
 - **TypeScript** – Strong typing and robust development experience  
 - **Node.js + Express** – RESTful API infrastructure  
 - **Hexagonal Architecture (Ports & Adapters)** – High modularity and clean boundaries  
-- **SQL Database** – Persistent storage for operational data  
+- **MySQL Database** – Persistent storage for operational data  
 - **Local JSON Storage** – Lightweight persistence for specific modules  
 - **SWAPI Integration** – External data provider for movie-related information  
 - **RESTful API Design** – Consistent and structured endpoint definitions
